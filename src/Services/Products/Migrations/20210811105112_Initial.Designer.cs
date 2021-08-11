@@ -9,7 +9,7 @@ using Products.Data;
 namespace Products.Migrations
 {
     [DbContext(typeof(ProductContext))]
-    [Migration("20210810145508_Initial")]
+    [Migration("20210811105112_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

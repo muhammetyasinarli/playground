@@ -33,14 +33,14 @@ namespace Products
 
             services.AddControllers();
 
-            services.AddDbContext<ProductContext>(opt => opt.UseInMemoryDatabase(databaseName: "InMemoryDb"),
-                                                ServiceLifetime.Singleton,
-                                                ServiceLifetime.Singleton);
+            //services.AddDbContext<ProductContext>(opt => opt.UseInMemoryDatabase(databaseName: "InMemoryDb"),
+            //                                    ServiceLifetime.Singleton,
+            //                                    ServiceLifetime.Singleton);
 
-            //services.AddDbContext<ProductContext>(options =>
-            //        options.UseSqlServer(
-            //            Configuration.GetConnectionString("ProductConnection"),
-            //            b => b.MigrationsAssembly(typeof(ProductContext).Assembly.FullName)), ServiceLifetime.Singleton);
+            services.AddDbContext<ProductContext>(options =>
+                    options.UseSqlServer(
+                        Configuration.GetConnectionString("ProductConnection"),
+                        b => b.MigrationsAssembly(typeof(ProductContext).Assembly.FullName)), ServiceLifetime.Singleton);
 
 
             services.AddTransient<IProductRepository, ProductRepository>();

@@ -1,0 +1,11 @@
+version: '3.4'
+
+services:
+  products:
+    image: ${DOCKER_REGISTRY-}products
+    build:
+      context: .
+      dockerfile: Services/Products/Dockerfile
+  
+  productDB:
+    image: mcr.microsoft.com/mssql/server:2019-latest

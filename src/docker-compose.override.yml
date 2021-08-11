@@ -1,0 +1,22 @@
+version: '3.4'
+
+services:
+  products:
+    container_name: products
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionStrings:ProductConnection=Server=productDB;Database=productDB;User Id=sa;Password=Ali.1234"
+    depends_on:
+      - productDB
+    ports:
+      - "8002:80"
+    volumes:
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+  productDB:
+    container_name: productDB
+    ports:
+      - "1434:1433" 
+    environment:
+      SA_PASSWORD: "Ali.1234"
+      ACCEPT_EULA: "Y"
