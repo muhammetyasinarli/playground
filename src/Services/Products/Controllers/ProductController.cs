@@ -5,6 +5,8 @@ using Products.Repositories.Interfaces;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
+using System.Linq;
+
 
 namespace Products.Controllers
 {
@@ -58,19 +60,29 @@ namespace Products.Controllers
             return Ok(await _productRepository.UpdateAsync(product));
         }
 
-        [HttpDelete("{id)}")]
+        [HttpDelete]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult<Product>> DeleteProductById(int id)
+        public async Task<ActionResult<int>> DeleteProductsAsync([FromQuery] int[] ids)
         {
-            var product = await _productRepository.GetByIdAsync(id);
-            if(product == null)
+            if(ids == null || !ids.Any())
             {
-                _logger.LogError($"Product with id : {id},hasn't been found in databasei");
+                _logger.LogError($"There aren't any product id in order to delete");
                 return NotFound();
             }
 
-            return Ok(await _productRepository.DeleteAsync(product));
+            int deletedCount = 0;
+            foreach (var id in ids)
+            {
+                var product = await _productRepository.GetByIdAsync(id);
+                if (product != null)
+                {
+                    await _productRepository.DeleteAsync(product);
+                    ++deletedCount; 
+                }
+            }
+
+            return Ok(deletedCount);
         }
     }
 }
